@@ -4,6 +4,11 @@ from django.core.validators import MinValueValidator, MaxValueValidator, MaxLeng
 
 from accounts import constants as act_constants
 
+SOCIAL_PROFILE_TYPES = (
+    ('google', 'google'),
+    ('facebook', 'facebook'),
+)
+
 
 class UserProfile(models.Model):
     '''
@@ -45,3 +50,15 @@ class MetroCard(models.Model):
     
     def __str__(self) -> str:
         return self.userprofile.user
+
+
+class GoogleRequest(models.Model):
+    state = models.CharField(max_length=64, null=False, blank=False)
+    is_active = models.BooleanField(default=False, null=False, blank=False)
+
+
+class SocialProfile(models.Model):
+    type = models.CharField(max_length=16, null=False, blank=False, choices=SOCIAL_PROFILE_TYPES)
+    account_id = models.CharField(max_length=32, null=False, blank=False)
+    email = models.EmailField(null=False, blank=False)
+    is_verified = models.BooleanField(default=False, null=False, blank=False)
