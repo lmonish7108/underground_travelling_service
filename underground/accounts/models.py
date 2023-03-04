@@ -28,7 +28,7 @@ class MetroCard(models.Model):
         # At any time only 1 metrocard will be active
         # on delete make it None, to do analysis on metro card
     '''
-    user = models.ForeignKey(UserProfile, null=True, blank=False, on_delete=models.DO_NOTHING)
+    userprofile = models.ForeignKey(UserProfile, null=True, blank=False, on_delete=models.DO_NOTHING)
     card_id = models.UUIDField(null=False, blank=False)
     # Maximum balance to be 100, to avoid money exploitation
     balance = models.IntegerField(null=False, blank=False, validators=[MaxValueValidator(100)])
@@ -44,4 +44,4 @@ class MetroCard(models.Model):
             return act_constants.SENIOR_USER
     
     def __str__(self) -> str:
-        return self.user
+        return self.userprofile.user
