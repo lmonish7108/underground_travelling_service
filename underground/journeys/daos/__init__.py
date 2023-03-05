@@ -27,4 +27,4 @@ class BaseDAO:
     
     @classmethod
     def list_obj(cls, **kwargs):
-        return cls.models.objects.filter(**kwargs.get('filters')).values(*kwargs['columns'])
+        return cls.model.objects.filter(**kwargs.get('filters')).values(*kwargs['columns'])

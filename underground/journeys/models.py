@@ -3,6 +3,12 @@ from django.db import models
 from accounts.models import MetroCard
 
 
+JOURNEY_TYPES = (
+    ('single', 'single'),
+    ('open_return', 'open_return')
+)
+
+
 class Station(models.Model):
     name = models.CharField(max_length=32)
     code = models.CharField(max_length=4)
@@ -29,9 +35,10 @@ class Journey(models.Model):
         # on delete make it None, to do analysis on journeys
         # for simplicity only start time is captured for now
     '''
-    origin = models.ForeignKey(Station, blank=False, null=True, on_delete=models.DO_NOTHING, related_name='origin')
-    destination = models.ForeignKey(Station, blank=False, null=True, on_delete=models.DO_NOTHING, related_name='destination')
-    metro_card = models.ForeignKey(MetroCard, blank=False, null=True, on_delete=models.DO_NOTHING)
+    origin = models.ForeignKey(Station, blank=False, null=True, on_delete=models.SET_NULL, related_name='origin')
+    destination = models.ForeignKey(Station, blank=False, null=True, on_delete=models.SET_NULL, related_name='destination')
+    metro_card = models.ForeignKey(MetroCard, blank=False, null=True, on_delete=models.SET_NULL)
+    journey_type = models.CharField(max_length=16, null=False, blank=False, choices=JOURNEY_TYPES, default='single')
     timestamp = models.DateTimeField(blank=False, null=False)
 
     def __str__(self):

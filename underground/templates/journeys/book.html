@@ -1,1 +1,81 @@
-Welcome
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+        <div style="position: absolute; background-repeat:no-repeat; background-size: cover; min-width: 100%; min-height: 100%; background-image: url('/media/irctc-img.jpeg'); opacity: 0.4;">
+            
+        </div>
+        <div style="min-width: 100%; padding: 50px; font-size: large; border: 1px black; position: absolute; z-index: 999;">
+            <div class="form-group col-md-4">
+                <label for="origin">Available Balance:</label>
+                <input class="form-control" type="text" value="{{balance}}" readonly>
+            </div>
+            <form action="/journey/book/" method="POST">
+                {% csrf_token %}
+                <div class="form-row">
+                    <div class="form-group col-md-4">
+                        <label for="origin">From :</label>
+                        <select id="origin" name="origin" class="form-control">
+                            {% for station in stations %}
+                                <option value="{{station.id}}">{{station.code}} - {{station.name}}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+                <br />
+                <div class="form-row">
+                    <div class="form-group col-md-4">
+                        <label for="destination">To :</label>
+                        <select id="destination" name="destination" class="form-control">
+                            {% for station in stations %}
+                                <option value="{{station.id}}">{{station.code}} - {{station.name}}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+                <br />
+                <div class="form-check">
+                    <input class="form-check-input" class="journey_type" type="radio" name="journey_type" id="journey_type_1" value="single" checked>
+                    <label class="form-check-label" for="journey_type">
+                      Single
+                    </label>
+                  </div>
+                <div class="form-check">
+                    <input class="form-check-input"  class="journey_type" type="radio" name="journey_type" id="journey_type_2" value="open_return">
+                    <label class="form-check-label" for="journey_type_2">
+                    Open return
+                </label>
+                </div>
+                <br />
+                <button type="button" onclick="get_ticket_price()" class="btn btn-secondary">Get Price</button>
+                <button type="submit" class="btn btn-primary">Book</button>
+            </form>
+            
+            <div class="form-group col-md-4">
+                <label for="ticket_price">Ticket Price:</label>
+                <input class="form-control" id="ticket_price" type="text" value="0" readonly>
+            </div>
+            <script>
+
+                function get_ticket_price(){
+                    var origin = $('#origin option:selected').val();
+                    var destination = $('#destination option:selected').val();
+                    var journey_type = $('input[name=journey_type]:checked').val();
+                    console.log(journey_type);
+                    if (origin==destination) return 0;
+                    $.ajax({
+                        url: "/journey/ticket/price/",
+                        type: 'GET',
+                        data: {
+                            origin: origin,
+                            destination: destination,
+                            journey_type: journey_type
+                        },
+                        success: function(res) {
+                            $("#ticket_price").val(res['price'])
+                        }
+                    });
+                }
+
+            </script>
+        </div>
+    {% endblock %}

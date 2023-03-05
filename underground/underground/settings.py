@@ -115,6 +115,10 @@ STATIC_URL = '/static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-LOGIN_URL = '/accounts/signup'
-LOGIN_REDIRECT_URL = '/'
-LOGOUT_REDIRECT_URL = '/'
+LOGIN_URL = '/accounts/login/'
+LOGIN_REDIRECT_URL = '/journey/book/'
+LOGOUT_REDIRECT_URL = '/accounts/login/'
+
+
+MEDIA_ROOT  = os.path.join(BASE_DIR, 'static/images')
+MEDIA_URL = '/media/'
