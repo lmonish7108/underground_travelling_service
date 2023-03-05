@@ -41,9 +41,9 @@ class MetroCard(models.Model):
 
     @property
     def card_type(self):
-        if self.user.age > 5 and self.user.age < 19:
+        if self.userprofile.age > 5 and self.userprofile.age < 19:
             return act_constants.STUDENT_USER
-        elif self.user.age > 18 and self.user.age < 50:
+        elif self.userprofile.age > 18 and self.userprofile.age < 50:
             return act_constants.ADULT_USER
         else:
             return act_constants.SENIOR_USER
