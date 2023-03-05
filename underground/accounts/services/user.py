@@ -8,6 +8,10 @@ class UserOnboarding:
     up_dao = user_dao.UserProfileDAO
     mc_dao = metrocard_dao.MetroCardDAO
 
+    @classmethod
+    def get_user(self, email):
+        return self.u_dao.get_obj(**{'email': email})
+
     def onboard_user(self, user_details: dict):
         user_obj = {
             'email': user_details['email'],
