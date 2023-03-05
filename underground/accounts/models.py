@@ -4,6 +4,7 @@ from django.core.validators import MinValueValidator, MaxValueValidator, MaxLeng
 
 from accounts import constants as act_constants
 
+
 SOCIAL_PROFILE_TYPES = (
     ('google', 'google'),
     ('facebook', 'facebook'),
@@ -51,7 +52,7 @@ class MetroCard(models.Model):
             return act_constants.SENIOR_USER
     
     def __str__(self) -> str:
-        return self.card_id
+        return str(self.card_id)
 
 
 class GoogleRequest(models.Model):

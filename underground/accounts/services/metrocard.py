@@ -5,6 +5,7 @@ from accounts import utils
 class MetroCard:
     mc_dao = metrocard_dao.MetroCardDAO
 
+    @classmethod
     def create_metrocard(self, user_profile):
         metrocard_obj = {
             'userprofile_id': user_profile.id,
@@ -18,3 +19,6 @@ class MetroCard:
         self.mc_dao.create_obj(**metrocard_obj)
         return 'Metro card created successfully'
     
+    @classmethod
+    def get_card_details(self, email):
+        return self.mc_dao.get_obj(**{'userprofile__user__email': email})
