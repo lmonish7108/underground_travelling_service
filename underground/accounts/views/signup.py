@@ -40,8 +40,8 @@ class UserSignupComplete(View):
         return HttpResponseRedirect(redirect_to=reverse('book_journey'))
 
 
-class GoogleLoginView(View):
-    template_name = 'accounts/google_login.html'
+class SocialLoginView(View):
+    template_name = 'accounts/login.html'
 
     def get(self, request, *args, **kwargs):
         context = {
