@@ -4,6 +4,11 @@ from django.core.validators import MinValueValidator, MaxValueValidator, MaxLeng
 
 from accounts import constants as act_constants
 
+SOCIAL_PROFILE_TYPES = (
+    ('google', 'google'),
+    ('facebook', 'facebook'),
+)
+
 
 class UserProfile(models.Model):
     '''
@@ -28,7 +33,7 @@ class MetroCard(models.Model):
         # At any time only 1 metrocard will be active
         # on delete make it None, to do analysis on metro card
     '''
-    user = models.ForeignKey(UserProfile, null=True, blank=False, on_delete=models.DO_NOTHING)
+    userprofile = models.ForeignKey(UserProfile, null=True, blank=False, on_delete=models.DO_NOTHING)
     card_id = models.UUIDField(null=False, blank=False)
     # Maximum balance to be 100, to avoid money exploitation
     balance = models.IntegerField(null=False, blank=False, validators=[MaxValueValidator(100)])
@@ -36,12 +41,24 @@ class MetroCard(models.Model):
 
     @property
     def card_type(self):
-        if self.user.age > 5 and self.user.age < 19:
+        if self.userprofile.age > 5 and self.userprofile.age < 19:
             return act_constants.STUDENT_USER
-        elif self.user.age > 18 and self.user.age < 50:
+        elif self.userprofile.age > 18 and self.userprofile.age < 50:
             return act_constants.ADULT_USER
         else:
             return act_constants.SENIOR_USER
     
     def __str__(self) -> str:
-        return self.user
+        return self.userprofile.user
+
+
+class GoogleRequest(models.Model):
+    state = models.CharField(max_length=64, null=False, blank=False)
+    is_active = models.BooleanField(default=False, null=False, blank=False)
+
+
+class SocialProfile(models.Model):
+    type = models.CharField(max_length=16, null=False, blank=False, choices=SOCIAL_PROFILE_TYPES)
+    account_id = models.CharField(max_length=32, null=False, blank=False)
+    email = models.EmailField(null=False, blank=False)
+    is_verified = models.BooleanField(default=False, null=False, blank=False)
