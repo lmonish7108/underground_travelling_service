@@ -13,15 +13,15 @@ SOCIAL_PROFILE_TYPES = (
 
 class UserProfile(models.Model):
     '''
-        # children upto age of 5 can travel for free
         # Not using birthdate field to keep it simple
         # on delete cascade user data for GDPR
+        # Keeping min age as 14 so as to support only social login
     '''
     user = models.OneToOneField(User, null=False, blank=False, on_delete=models.CASCADE)
     address = models.TextField(null=False, blank=False, validators=[MaxLengthValidator(128)])
     mobile = models.TextField(null=False, blank=False)
     
-    age = models.IntegerField(null=False, blank=False, validators=[MinValueValidator(6)])
+    age = models.IntegerField(null=False, blank=False, validators=[MinValueValidator(14)])
 
     def __str__(self) -> str:
         return str(self.id)
@@ -44,7 +44,7 @@ class MetroCard(models.Model):
     def card_type(self):
         if not self.userprofile:
             return 0
-        if self.userprofile.age > 5 and self.userprofile.age < 19:
+        if self.userprofile.age > 13 and self.userprofile.age < 19:
             return act_constants.STUDENT_USER
         elif self.userprofile.age > 18 and self.userprofile.age < 50:
             return act_constants.ADULT_USER
