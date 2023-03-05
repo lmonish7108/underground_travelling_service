@@ -1,70 +1,32 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
-    <div style="position: absolute; background-repeat:no-repeat; background-size: cover; min-width: 100%; min-height: 100%; background-image: url('/media/irctc-img.jpeg'); opacity: 0.4;">
+    <div style="position: absolute; background-repeat:no-repeat; background-size: cover; min-width: 100%; min-height: 100%; background-image: url('/media/irctc-img.jpeg'); opacity: 0.3;">
         
     </div>
-    {{user_journeys}}
     <div style="min-width: 100%; padding: 50px; font-size: large; border: 1px black; position: absolute; z-index: 999;">
         <table class="table">
             <thead class="thead-dark">
                 <tr>
                 <th scope="col">#</th>
-                <th scope="col">First</th>
-                <th scope="col">Last</th>
-                <th scope="col">Handle</th>
+                <th scope="col">Origin</th>
+                <th scope="col">Destination</th>
+                <th scope="col">Journey Type</th>
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                <th scope="row">1</th>
-                <td>Mark</td>
-                <td>Otto</td>
-                <td>@mdo</td>
-                </tr>
-                <tr>
-                <th scope="row">2</th>
-                <td>Jacob</td>
-                <td>Thornton</td>
-                <td>@fat</td>
-                </tr>
-                <tr>
-                <th scope="row">3</th>
-                <td>Larry</td>
-                <td>the Bird</td>
-                <td>@twitter</td>
-                </tr>
-            </tbody>
-            </table>
-            
-            <table class="table">
-            <thead class="thead-light">
-                <tr>
-                <th scope="col">#</th>
-                <th scope="col">First</th>
-                <th scope="col">Last</th>
-                <th scope="col">Handle</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                <th scope="row">1</th>
-                <td>Mark</td>
-                <td>Otto</td>
-                <td>@mdo</td>
-                </tr>
-                <tr>
-                <th scope="row">2</th>
-                <td>Jacob</td>
-                <td>Thornton</td>
-                <td>@fat</td>
-                </tr>
-                <tr>
-                <th scope="row">3</th>
-                <td>Larry</td>
-                <td>the Bird</td>
-                <td>@twitter</td>
-                </tr>
+                {% for journey in user_journeys %}
+                    <tr>
+                        <th scope="row">{{forloop.counter}}</th>
+                        <td>{{journey.origin__name}}</td>
+                        <td>{{journey.destination__name}}</td>
+                        {% if journey.journey_type == 'single' %}
+                            <td>Single</td>
+                        {% else %}
+                            <td>Open Return</td>
+                        {% endif %}
+                    </tr>
+                {% endfor %}
             </tbody>
             </table>
     </div>
