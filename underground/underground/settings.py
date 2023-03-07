@@ -126,5 +126,4 @@ MEDIA_URL = '/media/'
 
 CRON_CLASSES = [
     'journeys.cron.transaction_analytics.JourneyUpload',
-    'journeys.cron.transaction_analytics.JourneyPaymentUpload',
 ]
