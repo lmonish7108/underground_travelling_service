@@ -23,7 +23,7 @@ class GoogleCallback(View):
         social_profile = GoogleOnboarding().onboard_user(authorization_code=code, state=state)
         app_profile = UserOnboarding.get_user(social_profile['email'])
         if app_profile:
-            login(request, app_profile, backend=settings.AUTHENTICATION_BACKENDS[0])
+            login(request, app_profile[0], backend=settings.AUTHENTICATION_BACKENDS[0])
             return HttpResponseRedirect(redirect_to=reverse('book_journey'))
         form = complete_signup.CompleteSignupForm(initial={'email':social_profile['email']})
         return render(request, self.template_name, context={'complete_signup_form': form})
