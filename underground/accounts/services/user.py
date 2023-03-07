@@ -10,7 +10,7 @@ class UserOnboarding:
 
     @classmethod
     def get_user(self, email):
-        return self.u_dao.get_obj(**{'email': email})
+        return self.u_dao.filter_obj(**{'email': email})
 
     def onboard_user(self, user_details: dict):
         user_obj = {

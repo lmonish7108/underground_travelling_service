@@ -1,10 +1,40 @@
-version: '3.8'
+version: '3.9'
 
 services:
+  database:
+    image: postgres
+    container_name: database
+    volumes:
+      - postgres_data:/Users/monish_ml/Documents/workspace/demo_projects
+    environment:
+      - POSTGRES_HOST_AUTH_METHOD=trust
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=Lmonish7108
+      - POSTGRES_DB=underground
+    networks:
+      - underground
+    ports:
+      - 5432:5432
   web:
     build: ./underground
-    command: python manage.py runserver 0.0.0.0:8000
+    command: >
+            bash -c "python manage.py makemigrations
+            && python manage.py migrate
+            && python manage.py runserver 0.0.0.0:8000"
     volumes:
       - ./underground/:/usr/src/underground/
+    networks:
+      - underground
     ports:
       - 8000:8000
+    depends_on:
+      - database
+    links:
+      - database
+
+networks:
+    underground:
+        driver: bridge
+
+volumes:
+  postgres_data:
