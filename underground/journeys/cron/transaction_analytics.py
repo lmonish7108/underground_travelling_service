@@ -1,4 +1,5 @@
 import json
+import os
 import requests
 
 from django_cron import CronJobBase, Schedule
@@ -15,10 +16,10 @@ class JourneyUpload(CronJobBase):
     def do(self):
         journeys = journey.Journey.all_journey_data(
                 columns=['id', 'origin__name', 'destination__name', 
-                         'journey_type', 'metro_card_id', 'timestamp', 'metrocard__card_type',]
+                         'journey_type', 'metro_card_id', 'timestamp', 'metro_card__card_type',]
             )
 
-        requests.post(url='https://xhl3o0rikl.execute-api.eu-west-2.amazonaws.com/prod/upload/', json=json.dumps(journeys))
+        requests.post(url=os.getenv('LAMBDA_URL'), json=json.dumps(journeys))
 
 
 class JourneyPaymentUpload(CronJobBase):
@@ -31,4 +32,4 @@ class JourneyPaymentUpload(CronJobBase):
         journey_payments = journey.Journey.all_journey_payment_data(
                 columns=['id', 'journey_id', 'price']
             )
-        requests.post(url='https://xhl3o0rikl.execute-api.eu-west-2.amazonaws.com/prod/upload/', json=json.dumps(journey_payments))
+        requests.post(url=os.getenv('LAMBDA_URL'), json=json.dumps(journey_payments))
