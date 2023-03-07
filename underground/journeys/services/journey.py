@@ -12,3 +12,7 @@ class Journey:
             },
             'columns': columns
         })
+    
+    @classmethod
+    def all_journey_data(self, columns):
+        self.t_dao.list_obj(**{'filters': {},'columns': columns})

@@ -19,3 +19,5 @@ sqlparse==0.4.3
 typing-extensions==4.4.0
 urllib3
 zipp
+django-cron
+aws-requests-auth

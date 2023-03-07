@@ -22,6 +22,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django_cron',
     'accounts',
     'journeys',
 ]
@@ -122,3 +123,8 @@ LOGOUT_REDIRECT_URL = '/accounts/login/'
 
 MEDIA_ROOT  = os.path.join(BASE_DIR, 'static/images')
 MEDIA_URL = '/media/'
+
+CRON_CLASSES = [
+    'journeys.cron.transaction_analytics.JourneyUpload',
+    'journeys.cron.transaction_analytics.JourneyPaymentUpload',
+]
