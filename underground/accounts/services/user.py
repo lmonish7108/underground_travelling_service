@@ -16,7 +16,7 @@ class UserOnboarding:
         user_obj = {
             'email': user_details['email'],
             'defaults': {
-                'username': user_details['first_name'],
+                'username': user_details['email'],
                 'first_name': user_details['first_name'],
                 'last_name': user_details['last_name'],
                 'is_active': True
