@@ -37,7 +37,7 @@ class MetroCard(models.Model):
     userprofile = models.ForeignKey(UserProfile, null=True, blank=True, on_delete=models.SET_NULL)
     card_id = models.UUIDField(null=False, blank=False)
     # Maximum balance to be 100, to avoid money exploitation
-    balance = models.IntegerField(null=False, blank=False, validators=[MaxValueValidator(100)])
+    balance = models.FloatField(null=False, blank=False, validators=[MaxValueValidator(100)])
     is_active = models.BooleanField(default=False, null=True, blank=False)
 
     @property
