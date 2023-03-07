@@ -19,8 +19,8 @@ class JourneyUpload(CronJobBase):
                          'journey_type', 'metro_card_id', 'timestamp',
                          'metro_card__userprofile_id', 'metro_card__userprofile__age']
             )
-
-        requests.post(url=os.getenv('LAMBDA_URL'), data=json.dumps(journeys))
+        headers = {'Content-type': 'application/json', 'Accept': 'text/plain'}
+        requests.post(url=os.getenv('LAMBDA_URL'), data=json.dumps(list(journeys)), headers=headers)
 
 
 class JourneyPaymentUpload(CronJobBase):
@@ -33,4 +33,5 @@ class JourneyPaymentUpload(CronJobBase):
         journey_payments = journey.Journey.all_journey_payment_data(
                 columns=['id', 'journey_id', 'price']
             )
-        requests.post(url=os.getenv('LAMBDA_URL'), data=json.dumps(journey_payments))
+        headers = {'Content-type': 'application/json', 'Accept': 'text/plain'}
+        requests.post(url=os.getenv('LAMBDA_URL'), data=json.dumps(list(journey_payments)), headers=headers)
