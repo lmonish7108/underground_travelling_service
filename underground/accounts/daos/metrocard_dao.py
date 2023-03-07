@@ -18,3 +18,9 @@ class MetroCardDAO(daos.BaseDAO):
         # Operation denied for now, remaining balance will
         # be settled manually
         raise NotImplementedError
+
+    @classmethod
+    def deduct_ticket_money(cls, metrocard, ticket_price):
+        metrocard.balance -= ticket_price
+        metrocard.save()
+        return metrocard
